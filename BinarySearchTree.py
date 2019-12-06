@@ -1,69 +1,73 @@
-import TreeNode
+from TreeNode import TreeNode
 
-#add header and method headers
+
+# add header and method headers
 class BinarySearchTree:
     def __init__(self):
         self.root = None
 
     def size(self):
-        return self.size(self.root)
+        return self.root.getSize()
 
-    def size(self, x):
-        s = 0
-        if x.getRight() is not None:
-            s += 1
-            self.size(x.getRight())
-        if x.getLeft() is not None:
-            s += 1
-            self.size(x.getLeft())
-        if x.getLeft() is None and x.getRight() is None:
-            return s
+    def nsize(self, n):
+        sum = 1
+        if n.getLeft() is not None:
+            sum += n.getLeft().getSize()
+        if n.getRight() is not None:
+            sum += n.getRight().getSize()
+        return sum
 
 
     def isEmpty(self):
-        if self.size(self.root) is 0:
+        if self.size() is 0:
             return True
         else:
             return False
 
     def put(self, key, value):
-        self.root = self.put(self.root, key, value)
+        self.root = self.rput(self.root, key, value)
 
-    def put(self, n, key, value):
+    def rput(self, n, key, value):
         if n is None:
-            self.root = TreeNode(key, value)
-            return self.root
-        if n.getKey() < key:
+            n = TreeNode(key, value, 1)
+            return n
+        if n.getKey() > key:
             if n.getLeft() is None:
-                newNode = TreeNode(key, value)
+                newNode = TreeNode(key, value, 1)
                 n.setLeft(newNode)
             else:
-                n.setLeft(self.put(n.getLeft(), key, value))
-        if n.getKey() > key:
+                n.setLeft(self.rput(n.getLeft(), key, value))
+        if n.getKey() < key:
             if n.getRight() is None:
-                newNode = TreeNode(key, value)
+                newNode = TreeNode(key, value, 1)
                 n.setRight(newNode)
             else:
-                n.setRight(self.put(n.getRight(), key, value))
+                n.setRight(self.rput(n.getRight(), key, value))
+        if n.getKey() is key:
+            n.setValue(value)
+
+        n.setSize(self.nsize(n))
+        return n
 
     def get(self, key):
-        return self.get(self.root, key);
+        return self.rget(self.root, key);
 
-    def get(self, n, key):
+    def rget(self, n, key):
         if n is None:
             return None
-        if n.getKey() < key:
+        if n.getKey() > key:
+
             if n.getLeft() is None:
                 return None
             else:
-                n.setLeft(self.get(n.getLeft(), key))
-        if n.getKey() > key:
+                return self.rget(n.getLeft(), key)
+        if n.getKey() < key:
             if n.getRight() is None:
                 return None
             else:
-                n.setRight(self.get(n.getRight(), key))
-        if n.getKey == key:
-            return n
+                return self.rget(n.getRight(), key)
+        if n.getKey() == key:
+            return n.getValue()
 
     def contains(self, key):
         if self.root.get(key) is not None:
@@ -73,38 +77,38 @@ class BinarySearchTree:
 
     def remove(self, key):
         v = self.get(key)
-        root = self.remove(self.root, key)
+        self.root = self.rremove(self.root, key)
         return v
 
-    def remove(self, n, key):
+    def rremove(self, n, key):
         if n is None:
             return None
-        if n.getKey < key:
-            n.setLeft(self.remove(n.getLeft(), key))
-        elif n.getKey > key:
-            n.setRight(self.remove(n.getRight(), key));
+        if n.getKey() < key:
+            n.setLeft(self.rremove(n.getLeft(), key))
+        elif n.getKey() > key:
+            n.setRight(self.rremove(n.getRight(), key));
         else:
             if n.getRight() is None:
-                return n.getLeft()
+                n = n.getLeft()
             if n.getLeft() is None:
-                return n.getRight()
+               n = n.getRight()
             mini = self.min(n.getRight())
             mini.setLeft(n.getLeft())
             n = n.getRight()
 
-        n.setSize(self.size(n.getRight()) + self.size(n.getLeft()) + 1)
+        n.setSize(self.nsize(n))
         return n
 
     def min(self):
-        return self.min(self.root).getKey()
+        return self.rmin(self.root).getKey()
 
-    def min(self, n):
+    def rmin(self, n):
         if n is None:
             return n
         elif n.getLeft() is None:
             return n
         else:
-            return n.getLeft()
+            return self.rmin(n.getLeft())
 
     def max(self):
         return self.max(self.root).getKey()
@@ -118,11 +122,11 @@ class BinarySearchTree:
             return n.getRight()
 
     def __repr__(self):
-        temp = repr(self.root)
-        temp = temp.substring(0, temp.length() - 2)
+        temp = self.rrepr(self.root)
+        temp = temp[0: len(temp) - 2]
         return "{" + temp + "}"
 
-    def __repr__(self, n):
+    def rrepr(self, n):
         if n is None:
             return ""
-        return repr(n.getLeft()) + n.getKey() + "=" + n.getValue() + ", " + repr(n.getRight())
+        return self.rrepr(n.getLeft()) + str(n.getKey()) + "=" + str(n.getValue()) + ", " + self.rrepr(n.getRight())
