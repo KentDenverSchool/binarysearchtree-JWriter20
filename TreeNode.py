@@ -7,7 +7,7 @@ class TreeNode:
         self.right = None
 
     def __repr__(self):
-        return "Node{" + "key=" + self.k + ", value=" + self.v +'}'
+        return "Node{" + "key=" + str(self.k) + ", value=" + str(self.v) +"}"
 
     def getKey(self):
         return self.k
@@ -18,7 +18,7 @@ class TreeNode:
     def getValue(self,):
         return self.v
 
-    def setValue(self,value):
+    def setValue(self, value):
         self.v = value
 
     def getLeft(self):

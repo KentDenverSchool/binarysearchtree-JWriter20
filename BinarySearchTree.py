@@ -70,7 +70,7 @@ class BinarySearchTree:
             return n.getValue()
 
     def contains(self, key):
-        if self.root.get(key) is not None:
+        if self.get(key) is not None:
             return True
         else:
             return False
@@ -78,24 +78,25 @@ class BinarySearchTree:
     def remove(self, key):
         v = self.get(key)
         self.root = self.rremove(self.root, key)
+        print(self.root)
         return v
 
     def rremove(self, n, key):
         if n is None:
             return None
-        if n.getKey() < key:
-            n.setLeft(self.rremove(n.getLeft(), key))
-        elif n.getKey() > key:
-            n.setRight(self.rremove(n.getRight(), key));
         else:
-            if n.getRight() is None:
-                n = n.getLeft()
-            if n.getLeft() is None:
-               n = n.getRight()
-            mini = self.min(n.getRight())
-            mini.setLeft(n.getLeft())
-            n = n.getRight()
-
+            if n.getKey() < key:
+                n.setLeft(self.rremove(n.getLeft(), key))
+            elif n.getKey() > key:
+                n.setRight(self.rremove(n.getRight(), key));
+            else:
+                if n.getRight() is None:
+                    return n.getLeft()
+                if n.getLeft() is None:
+                    return n.getRight()
+                mini = self.rmin(n.getRight())
+                mini.setLeft(n.getLeft())
+                n = n.getRight()
         n.setSize(self.nsize(n))
         return n
 
@@ -111,15 +112,15 @@ class BinarySearchTree:
             return self.rmin(n.getLeft())
 
     def max(self):
-        return self.max(self.root).getKey()
+        return self.rmax(self.root).getKey()
 
-    def max(self, n):
+    def rmax(self, n):
         if n is None:
             return n
         elif n.getRight() is None:
             return n
         else:
-            return n.getRight()
+            return self.rmax(n.getRight())
 
     def __repr__(self):
         temp = self.rrepr(self.root)
@@ -130,3 +131,6 @@ class BinarySearchTree:
         if n is None:
             return ""
         return self.rrepr(n.getLeft()) + str(n.getKey()) + "=" + str(n.getValue()) + ", " + self.rrepr(n.getRight())
+
+    def getRoot(self):
+        return self.root
