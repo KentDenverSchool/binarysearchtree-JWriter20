@@ -1,3 +1,7 @@
+# Author: Jake Writer
+# purpose: This program creates the node which are used in the creation of a BinarySearchTree
+# Date: 12/8/19
+
 class TreeNode:
     def __init__(self, key, value, size):
         self.k = key

@@ -1,0 +1,32 @@
+_________Testing BinarySearchTree__________
+Testing put():
+	Expected output: {3=3, 14=2, 15=1, 16=3, 18=5, 19=3}
+	Actual output: {3=3, 14=2, 15=1, 16=3, 18=5, 19=3}
+Testing get():
+	Expected output: 5
+	Actual output: 5
+Testing size():
+	Expected output: 6
+	Actual output: 6
+Testing isEmpty():
+	Expected output: False
+	Actual output: False
+Testing min():
+	Expected output: 3
+	Actual output: 3
+Testing max():
+	Expected output: 19
+	Actual output: 19
+Testing contains():
+	Expected output: True
+	Actual output: True
+Testing repr():
+	Already passed test when used in put
+Testing remove():
+	Expected output: {}
+	Actual output: {}
+
+Testing isEmpty() Again:
+	Expected output: True
+	Actual output: True
+Problems writing to log file
